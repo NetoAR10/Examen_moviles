@@ -17,8 +17,8 @@ import com.example.kotlin.examen_moviles.framework.adapter.HistoricalAdapter
 import com.example.kotlin.examen_moviles.framework.viewmodel.HistoricalViewModel
 
 /**
- * Activity que muestra una lista de posturas en un RecyclerView con la capacidad de realizar búsquedas.
- * Utiliza un ViewModel para gestionar los datos y un adaptador para mostrar los elementos.
+ * Activity que muestra una lista de elementos históricos en un RecyclerView con capacidad de búsqueda
+ * y filtros por categorías. Utiliza un ViewModel para gestionar los datos y un adaptador para mostrarlos.
  */
 class HistoricalActivity : AppCompatActivity() {
     // Enlace de vista generado para el diseño de la actividad (ActivityPosturasBinding)
@@ -32,7 +32,7 @@ class HistoricalActivity : AppCompatActivity() {
 
     /**
      * Método que se llama cuando se crea la actividad. Configura el enlace de vista,
-     * inicializa el RecyclerView, activa el buscador y observa los datos del ViewModel.
+     * inicializa el RecyclerView, activa el buscador, configura los filtros y observa los datos del ViewModel.
      *
      * @param savedInstanceState Estado de la actividad guardado anteriormente.
      */
@@ -59,8 +59,8 @@ class HistoricalActivity : AppCompatActivity() {
     }
 
     /**
-     * Configura el RecyclerView con un adaptador y un GridLayoutManager de tres columnas.
-     * Permite mostrar las posturas en un diseño de cuadrícula.
+     * Configura el RecyclerView con un adaptador y un GridLayoutManager de una columna.
+     * Permite mostrar los elementos históricos en una lista.
      */
     private fun inicializarRecyclerView() {
         historicalAdapter = HistoricalAdapter()
@@ -71,6 +71,7 @@ class HistoricalActivity : AppCompatActivity() {
     /**
      * Observa los datos del ViewModel. Cuando cambian, actualiza los datos del adaptador
      * y verifica si hay resultados para mostrar u ocultar el estado "Sin Resultados".
+     * También inicializa los filtros una vez que los datos han sido cargados.
      */
     private fun observarViewModel() {
         viewModel.historicalLiveData.observe(this) { historical ->
@@ -95,8 +96,8 @@ class HistoricalActivity : AppCompatActivity() {
     }
 
     /**
-     * Escucha el campo de búsqueda y filtra las posturas en tiempo real a medida
-     * que el usuario escribe. Muestra u oculta el mensaje "Sin Resultados" si es necesario.
+     * Escucha el campo de búsqueda y filtra los elementos históricos en tiempo real
+     * a medida que el usuario escribe. Muestra u oculta el mensaje "Sin Resultados" si es necesario.
      */
     private fun eschucharBuscador() {
         binding.buscadorHistorical.addTextChangedListener(
@@ -125,13 +126,17 @@ class HistoricalActivity : AppCompatActivity() {
     /**
      * Verifica si se deben mostrar u ocultar los elementos de "Sin Resultados" según el estado de la lista.
      *
-     * @param sinResultados Indica si no se encontraron posturas en la lista.
+     * @param sinResultados Indica si no se encontraron elementos históricos en la lista.
      */
     private fun verificarEstadoResultados(sinResultados: Boolean) {
         binding.contenedorSinResultados.visibility = if (sinResultados) View.VISIBLE else View.GONE
         binding.recyclerViewHistorical.visibility = if (sinResultados) View.GONE else View.VISIBLE
     }
 
+    /**
+     * Inicializa los filtros de las categorías `category1` y `category2`, configurando los Spinners
+     * correspondientes y sus eventos de selección.
+     */
     private fun inicializarFiltros() {
         val categories1 = historicalAdapter.obtenerUnicos("category1")
         val categories2 = historicalAdapter.obtenerUnicos("category2")
@@ -150,14 +155,25 @@ class HistoricalActivity : AppCompatActivity() {
     }
 
 
-
+    /**
+     * Aplica los filtros seleccionados por las categorías `category1` y `category2`.
+     *
+     * @param category1 Valor seleccionado para filtrar por la primera categoría.
+     * @param category2 Valor seleccionado para filtrar por la segunda categoría.
+     */
     private fun aplicarFiltros(category1: String, category2: String) {
         Log.d("HistoricalActivity", "Aplicando filtros: category1=$category1, category2=$category2")
         historicalAdapter.aplicarFiltro(category1, category2)
     }
 
 
-
+    /**
+     * Configura un Spinner con una lista de opciones y un listener para manejar la selección de elementos.
+     *
+     * @param spinner Spinner a configurar.
+     * @param opciones Lista de opciones para el Spinner.
+     * @param onItemSelected Callback que se ejecuta cuando un elemento es seleccionado.
+     */
     private fun configurarSpinner(spinner: Spinner, opciones: List<String>, onItemSelected: (String) -> Unit) {
         Log.d("HistoricalActivity", "Configurando Spinner con opciones: $opciones")
 
