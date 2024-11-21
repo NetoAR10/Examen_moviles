@@ -1,4 +1,4 @@
-package com.example.kotlin.examen.utils
+package com.example.kotlin.examen_moviles.utils
 
 object Constants {
     const val APPLICATION_ID = "myStagingAppId"

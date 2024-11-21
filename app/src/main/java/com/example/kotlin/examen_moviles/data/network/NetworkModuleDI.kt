@@ -1,9 +1,9 @@
-package com.example.kotlin.examen.data.network
+package com.example.kotlin.examen_moviles.data.network
 
 import android.content.Context
-import com.example.kotlin.examen.utils.Constants.APPLICATION_ID
-import com.example.kotlin.examen.utils.Constants.BASE_URL
-import com.example.kotlin.examen.utils.Constants.CLIENT_KEY
+import com.example.kotlin.examen_moviles.utils.Constants.APPLICATION_ID
+import com.example.kotlin.examen_moviles.utils.Constants.BASE_URL
+import com.example.kotlin.examen_moviles.utils.Constants.CLIENT_KEY
 import com.parse.Parse
 import com.parse.ParseCloud
 import com.parse.ParseException

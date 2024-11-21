@@ -1,4 +1,4 @@
-package com.example.kotlin.examen.framework.viewmodel
+package com.example.kotlin.examen_moviles.framework.viewmodel
 
 class ViewModel {
 }

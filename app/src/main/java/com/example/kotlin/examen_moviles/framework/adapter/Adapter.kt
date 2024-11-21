@@ -1,4 +1,4 @@
-package com.example.kotlin.examen.framework.adapter
+package com.example.kotlin.examen_moviles.framework.adapter
 
 class Adapter {
 }
