@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/postura_fondo">
+    android:background="@drawable/fondo_carta_base">
 
     <!-- Contenedor de la interfaz principal (Buscador, RecyclerView, etc.) -->
     <LinearLayout
@@ -26,11 +26,22 @@
 
 
         <!-- Sección para el Buscador -->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="300dp"
+                android:layout_height="100dp"
+                android:paddingLeft="110dp"
+                android:src="@drawable/history_logo" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="110dp"
+            android:layout_marginTop="10dp"
             android:paddingBottom="16dp">
 
             <EditText
@@ -110,7 +121,7 @@
                 android:textSize="20sp"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
-                android:text="No se encontraron posturas"
+                android:text="No se encontraron historias"
                 android:textColor="@android:color/black"
                 android:shadowColor="@android:color/white"
                 android:shadowDx="0"
@@ -120,17 +131,5 @@
         </LinearLayout>
 
     </LinearLayout>
-
-    <!-- Botón Registrarse (Posicionado en la esquina inferior derecha) -->
-    <Button
-        android:id="@+id/interfazRegistrarPostura"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/gris"
-        android:text="+"
-        android:textSize="55sp"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|end"
-        android:elevation="8dp"/>
 
 </FrameLayout>

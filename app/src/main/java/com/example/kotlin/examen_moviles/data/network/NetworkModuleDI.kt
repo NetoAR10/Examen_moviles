@@ -12,11 +12,19 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.io.IOException
 
+/**
+ * Objeto responsable de manejar las configuraciones de red y las llamadas a funciones en la nube de Parse.
+ */
 object NetworkModuleDI {
 
+    // Cliente HTTP para realizar solicitudes
     private val client = OkHttpClient()
 
-
+    /**
+     * Inicializa Parse con la configuración necesaria para la conexión al backend.
+     *
+     * @param context Contexto de la aplicación utilizado para inicializar Parse.
+     */
     fun initializeParse(context: Context) {
         Parse.initialize(
             Parse.Configuration.Builder(context)
@@ -28,26 +36,28 @@ object NetworkModuleDI {
     }
 
     /**
-     * Llama a una función en la nube de Parse de forma personalizada con OkHttp.
+     * Llama a una función en la nube de Parse de forma personalizada utilizando OkHttp.
      *
-     * @param nombreFuncion El nombre de la función en la nube que se va a ejecutar.
-     * @param parametros Un mapa de parámetros que se pasarán a la función en la nube.
-     * @param callback La función que se llamará con el resultado o el error.
+     * @param nombreFuncion Nombre de la función en la nube que se va a ejecutar.
+     * @param parametros Mapa de parámetros que se pasarán a la función en la nube.
+     * @param maxRetries Número máximo de reintentos en caso de fallo.
+     * @param callback Callback que se llamará con el resultado o el error.
+     *                 - Si la llamada es exitosa, recibe un `JSONObject` como primer argumento y `null` como segundo.
+     *                 - Si ocurre un error, recibe `null` como primer argumento y una `Exception` como segundo.
      */
     fun callCloudFunction(
         nombreFuncion: String,
         parametros: HashMap<String, Any>,
-        maxRetries: Int = 3, // Máximo número de reintentos
+        maxRetries: Int = 3,
         callback: (JSONObject?, Exception?) -> Unit
     ) {
         val url = "$BASE_URL/$nombreFuncion"
 
-        // Crear el cuerpo de la solicitud
+        // Crear el cuerpo de la solicitud en formato JSON
         val jsonBody = JSONObject(parametros as Map<String, Any>).toString()
         val requestBody = jsonBody.toRequestBody("application/json; charset=utf-8".toMediaType())
 
-
-        // Construir la solicitud con los encabezados requeridos
+        // Construir la solicitud HTTP con los encabezados requeridos
         val request = Request.Builder()
             .url(url)
             .post(requestBody)
@@ -55,14 +65,20 @@ object NetworkModuleDI {
             .addHeader("X-Parse-REST-API-Key", REST_API_KEY)
             .build()
 
-        // Función para manejar reintentos
+        /**
+         * Ejecuta la solicitud HTTP con reintentos en caso de fallo.
+         *
+         * @param retryCount Número actual de intentos realizados.
+         */
         fun executeRequest(retryCount: Int) {
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     if (retryCount < maxRetries) {
-                        executeRequest(retryCount + 1) // Reintentar en caso de fallo
+                        Log.w("NetworkModuleDI", "Fallo en el intento $retryCount, reintentando...")
+                        executeRequest(retryCount + 1) // Reintentar si no se ha alcanzado el límite
                     } else {
-                        callback(null, e)
+                        Log.e("NetworkModuleDI", "Error tras $maxRetries intentos: ${e.message}")
+                        callback(null, e) // Devolver el error al callback
                     }
                 }
 
@@ -70,19 +86,22 @@ object NetworkModuleDI {
                     if (response.isSuccessful) {
                         val responseBody = response.body?.string()
                         val json = JSONObject(responseBody ?: "")
-                        callback(json, null)
+                        callback(json, null) // Devolver el resultado al callback
                     } else {
                         if (retryCount < maxRetries) {
+                            Log.w("NetworkModuleDI", "Error HTTP ${response.code} en el intento $retryCount, reintentando...")
                             executeRequest(retryCount + 1) // Reintentar en caso de error HTTP
                         } else {
-                            callback(null, Exception("Error HTTP: ${response.code}"))
+                            Log.e("NetworkModuleDI", "Error HTTP tras $maxRetries intentos: ${response.code}")
+                            callback(null, Exception("Error HTTP: ${response.code}")) // Devolver el error al callback
                         }
                     }
                 }
             })
         }
 
-        // Iniciar la solicitud con el primer intento
+        // Inicia la solicitud con el primer intento
         executeRequest(0)
     }
 }
+
