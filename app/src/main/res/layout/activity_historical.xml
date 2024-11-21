@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/postura_fondo">
+
+    <!-- Contenedor de la interfaz principal (Buscador, RecyclerView, etc.) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Imagen de Retroceso (Botón de Regreso) -->
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/flecha_retroceso"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp" />
+
+        <!-- Sección para el Buscador -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="110dp"
+            android:paddingBottom="16dp">
+
+            <EditText
+                android:id="@+id/buscadorHistorical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/fondo_redondo"
+                android:hint="Buscar Historical"
+                android:textColorHint="@color/gris"
+                android:textColor="@color/negro"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textSize="20sp"
+                android:drawablePadding="8dp"
+                android:drawableEnd="@drawable/lupa"
+                />
+        </LinearLayout>
+
+        <!-- RecyclerView para mostrar los resultados -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHistorical"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:paddingLeft="16dp"
+            android:layout_marginTop="6dp"
+            android:clipToPadding="false" />
+
+        <!-- Contenedor para mostrar mensaje de "Sin Resultados" -->
+        <LinearLayout
+            android:id="@+id/contenedorSinResultados"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="140dp">
+
+            <ImageView
+                android:id="@+id/iconoSinResultados"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:src="@drawable/signo_pregunta"
+                />
+
+            <TextView
+                android:id="@+id/textoSinResultados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="No se encontraron posturas"
+                android:textColor="@android:color/black"
+                android:shadowColor="@android:color/white"
+                android:shadowDx="0"
+                android:shadowDy="0"
+                android:shadowRadius="10"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Botón Registrarse (Posicionado en la esquina inferior derecha) -->
+    <Button
+        android:id="@+id/interfazRegistrarPostura"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/gris"
+        android:text="+"
+        android:textSize="55sp"
+        android:layout_margin="16dp"
+        android:layout_gravity="bottom|end"
+        android:elevation="8dp"/>
+
+</FrameLayout>

@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.example.kotlin.examen_moviles"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.kotlin.examen_moviles"
         minSdk = 27
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 

@@ -1,16 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Examen_moviles" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+    <style name="Base.Theme.Wushu" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/rojo</item>
+        <item name="colorOnPrimary">@color/contenedor_rectangulo</item> <!-- Color del texto en el fondo primario -->
+        <item name="colorOnBackground">@color/negro</item> <!-- Color del texto en el fondo -->
+        <!-- Cambiar el color de la barra de estado -->
+        <item name="android:statusBarColor">@color/negro</item>
+        <!-- Cambiar el color de la barra de navegación -->
+        <item name="android:navigationBarColor">@color/negro</item>
+    </style>
+
+    <style name="Theme.Wushu" parent="Base.Theme.Wushu" />
+    <style name="Theme.Wushu.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

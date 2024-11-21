@@ -1,55 +1,88 @@
 package com.example.kotlin.examen_moviles.data.network
 
 import android.content.Context
+import android.util.Log
 import com.example.kotlin.examen_moviles.utils.Constants.APPLICATION_ID
 import com.example.kotlin.examen_moviles.utils.Constants.BASE_URL
-import com.example.kotlin.examen_moviles.utils.Constants.CLIENT_KEY
+import com.example.kotlin.examen_moviles.utils.Constants.REST_API_KEY
 import com.parse.Parse
-import com.parse.ParseCloud
-import com.parse.ParseException
+import okhttp3.*
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
+import java.io.IOException
 
-/**
- * Módulo de inyección de dependencias responsable de inicializar Parse y
- * manejar las llamadas a las funciones en la nube de Parse.
- */
 object NetworkModuleDI {
-    /**
-     * Inicializa Parse con la configuración necesaria para la conexión al backend.
-     *
-     * @param context El contexto de la aplicación utilizado para la configuración de Parse.
-     */
+
+    private val client = OkHttpClient()
+
+
     fun initializeParse(context: Context) {
         Parse.initialize(
-            Parse.Configuration
-                .Builder(context)
+            Parse.Configuration.Builder(context)
                 .applicationId(APPLICATION_ID)
-                .clientKey(CLIENT_KEY)
+                .clientKey(REST_API_KEY)
                 .server(BASE_URL)
-                .build(),
+                .build()
         )
     }
 
     /**
-     * Llama a una función en la nube de Parse de forma asíncrona y maneja el resultado o error.
+     * Llama a una función en la nube de Parse de forma personalizada con OkHttp.
      *
-     * @param T El tipo de resultado esperado de la función en la nube.
      * @param nombreFuncion El nombre de la función en la nube que se va a ejecutar.
      * @param parametros Un mapa de parámetros que se pasarán a la función en la nube.
-     * @param callback La función que se llamará con el resultado o el error. Si la llamada es exitosa,
-     * [callback] recibirá el resultado como el primer argumento y `null` como segundo argumento.
-     * En caso de error, recibirá `null` como primer argumento y una excepción como segundo argumento.
+     * @param callback La función que se llamará con el resultado o el error.
      */
-    fun <T> callCloudFunction(
+    fun callCloudFunction(
         nombreFuncion: String,
         parametros: HashMap<String, Any>,
-        callback: (T?, Exception?) -> Unit,
+        maxRetries: Int = 3, // Máximo número de reintentos
+        callback: (JSONObject?, Exception?) -> Unit
     ) {
-        ParseCloud.callFunctionInBackground(nombreFuncion, parametros) { resultado: T?, e: ParseException? ->
-            if (e == null) {
-                callback(resultado, null)
-            } else {
-                callback(null, e)
-            }
+        val url = "$BASE_URL/$nombreFuncion"
+
+        // Crear el cuerpo de la solicitud
+        val jsonBody = JSONObject(parametros as Map<String, Any>).toString()
+        val requestBody = jsonBody.toRequestBody("application/json; charset=utf-8".toMediaType())
+
+
+        // Construir la solicitud con los encabezados requeridos
+        val request = Request.Builder()
+            .url(url)
+            .post(requestBody)
+            .addHeader("X-Parse-Application-Id", APPLICATION_ID)
+            .addHeader("X-Parse-REST-API-Key", REST_API_KEY)
+            .build()
+
+        // Función para manejar reintentos
+        fun executeRequest(retryCount: Int) {
+            client.newCall(request).enqueue(object : Callback {
+                override fun onFailure(call: Call, e: IOException) {
+                    if (retryCount < maxRetries) {
+                        executeRequest(retryCount + 1) // Reintentar en caso de fallo
+                    } else {
+                        callback(null, e)
+                    }
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    if (response.isSuccessful) {
+                        val responseBody = response.body?.string()
+                        val json = JSONObject(responseBody ?: "")
+                        callback(json, null)
+                    } else {
+                        if (retryCount < maxRetries) {
+                            executeRequest(retryCount + 1) // Reintentar en caso de error HTTP
+                        } else {
+                            callback(null, Exception("Error HTTP: ${response.code}"))
+                        }
+                    }
+                }
+            })
         }
+
+        // Iniciar la solicitud con el primer intento
+        executeRequest(0)
     }
 }

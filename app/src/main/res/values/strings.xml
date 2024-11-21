@@ -1,3 +1,59 @@
 <resources>
-    <string name="app_name">Examen_moviles</string>
+    <string name="app_name">Wushu</string>
+    <string name="registrar">Registrar"</string>
+    <string name="alumno">Alumno</string>
+    <string name="nombre">Nombre completo*</string>
+    <string name="fechaNacimiento">Fecha de nacimiento*</string>
+    <string name="telefono">Teléfono*</string>
+    <string name="curp">CURP*</string>
+    <string name="peso">Peso (Kg)*</string>
+    <string name="direccion">Dirección*</string>
+    <string name="correo">Correo electrónico*</string>
+    <string name="fuerza">Fuerza</string>
+    <string name="elasticidad">Elasticidad</string>
+    <string name="resistencia">Resistencia</string>
+    <string name="capCardio">Capacidad cardiopulmonar</string>
+    <string name="estatura">Estatura (cm)</string>
+    <string name="colegiatura">Costo de colegiatura</string>
+    <string name="registrarAlumno">Registrar</string>
+    <string name="estilo">Estilo</string>
+    <string name="ej_kung_fu_tai_chi">Ej. Kung Fu, Tai Chi</string>
+    <string name="ej">Ej. 少林</string>
+    <string name="nan_quan">Nan Quan</string>
+    <string name="nombre_en_chino">Nombre en chino</string>
+    <string name="seleccionar_imagen">Seleccionar Imagen</string>
+    <string name="imagen_del_estilo">Imagen del estilo</string>
+
+    <string name="descripcion">Descripción</string>
+    <string name="postura">Postura</string>
+    <string name="agregar">Agregar</string>
+    <string name="nombrePostura">Nombre de la Postura</string>
+
+    <string name="registrar_pago_titulo_1"><font color="@color/white">REGISTRAR</font> <font color="@color/black">PAGO</font></string>
+    <string name="registrar_prueba_titulo_1"><font color="@color/white">AGREGAR</font> <font color="@color/black">PRUEBA</font></string>
+    <string name="pago_cuerpo">Pago de alumno</string>
+    <string name="pago_monto">Monto</string>
+    <string name="pago_concepto">Concepto</string>
+    <string name="pago_registrar">Registrar</string>
+    <string name="logo_descripcion">Logo de Wushu></string>
+    <string name="ej_kung_fu">Ej. Kung Fu</string>
+    <string name="arte_marcial">Arte Marcial</string>
+    <string name="descripci_n_del_estilo">Descripción del estilo</string>
+    <string name="descripci_n">Descripción</string>
+    <string name="imagen">Imagen</string>
+    <string name="nombre_del_estilo">Nombre del estilo</string>
+    <string name="nombre_del_estilo_en_chino">Nombre del estilo en Chino</string>
+    <string name="imagenLogo">Logo</string>
+    <string name="imagenFondoEstilo">Imagen de fondo</string>
+
+    <string name="iniciases_titulo">Wushu Kung Fu</string>
+    <string name="contraseña">Contraseña*</string>
+    <string name="iniciases_olvide">¿Olvidaste tu contraseña?</string>
+    <string name="iniciases_boton">Inicia sesión</string>
+    <string name="email">Inicia sesión</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="tituloModificarUsuario">Modificar</string>
 </resources>

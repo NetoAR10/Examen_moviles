@@ -1,0 +1,18 @@
+<!-- res/drawable/button_background.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Sombra -->
+    <item>
+        <shape android:shape="rectangle">
+            <solid android:color="#B00000" />
+            <corners android:radius="20dp" />
+        </shape>
+    </item>
+    <!-- Color de fondo con textura -->
+    <item android:top="2dp" android:left="2dp">
+        <shape android:shape="rectangle">
+            <solid android:color="@color/rojo" />
+            <corners android:radius="20dp" />
+            <!-- Puedes agregar líneas o patrones aquí si tienes una textura específica -->
+        </shape>
+    </item>
+</layer-list>
