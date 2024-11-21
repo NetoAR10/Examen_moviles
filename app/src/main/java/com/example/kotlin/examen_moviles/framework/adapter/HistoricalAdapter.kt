@@ -41,6 +41,30 @@ class HistoricalAdapter() : RecyclerView.Adapter<HistoricalViewHolder>() {
         notifyDataSetChanged() // Notifica al adaptador que los datos han cambiado
     }
 
+    fun aplicarFiltro(category1: String, category2: String) {
+        Log.d("HistoricalAdapter", "Datos antes de filtrar: $datos")
+        datosFiltrados = datos.filter {
+            (category1 == "Todos" || it.category1 == category1) &&
+                    (category2 == "Todos" || it.category2 == category2)
+        }
+        Log.d("HistoricalAdapter", "Datos filtrados: $datosFiltrados")
+        notifyDataSetChanged()
+    }
+
+
+    fun obtenerUnicos(campo: String): List<String> {
+        val valores = when (campo) {
+            "category1" -> datos.mapNotNull { it.category1 }
+            "category2" -> datos.mapNotNull { it.category2 }
+            else -> emptyList()
+        }
+        val unicos = listOf("Todos") + valores.distinct()
+        Log.d("HistoricalAdapter", "Valores únicos para $campo: $unicos")
+        return unicos
+    }
+
+
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
