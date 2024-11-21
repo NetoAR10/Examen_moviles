@@ -10,7 +10,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <!-- Filtro para category2 -->
+
         <!-- Imagen de Retroceso (Botón de Regreso) -->
+
+
         <ImageView
             android:id="@+id/backButton"
             android:layout_width="wrap_content"
@@ -19,6 +23,7 @@
             android:src="@drawable/flecha_retroceso"
             android:paddingLeft="20dp"
             android:paddingTop="20dp" />
+
 
         <!-- Sección para el Buscador -->
         <LinearLayout
@@ -35,15 +40,39 @@
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/fondo_redondo"
+                android:drawableEnd="@drawable/lupa"
+                android:drawablePadding="8dp"
                 android:hint="Buscar Historical"
-                android:textColorHint="@color/gris"
-                android:textColor="@color/negro"
                 android:inputType="text"
                 android:padding="12dp"
-                android:textSize="20sp"
-                android:drawablePadding="8dp"
-                android:drawableEnd="@drawable/lupa"
-                />
+                android:textColor="@color/negro"
+                android:textColorHint="@color/gris"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dp" >
+
+            <Spinner
+                android:id="@+id/spinnerCategory1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/negro"
+                android:prompt="@string/filter_category1"
+                android:spinnerMode="dropdown" />
+
+            <Spinner
+                android:id="@+id/spinnerCategory2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/negro"
+                android:prompt="@string/filter_category2"
+                android:spinnerMode="dropdown" />
         </LinearLayout>
 
         <!-- RecyclerView para mostrar los resultados -->
